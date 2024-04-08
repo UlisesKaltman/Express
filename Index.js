@@ -29,6 +29,14 @@ app.use(express.json());
     });
 
 
+    app.get('/matematica/sumar', function (req, res){ 
+    let num1=req.query.num1;
+    let num2=req.query.num2;
+    let result= sumar(num1,num2);
+    res.send(result);
+    });
+
+
 
 
 app.listen(port, () => {
