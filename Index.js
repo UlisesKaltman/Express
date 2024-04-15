@@ -6,6 +6,10 @@ import {OMDBSearchByPage, OMDBSearchComplete, OMDBGetByImdbID} from "./src/modul
 
 const app  = express();
 const port = 3000;
+const alumnosArray=[]; 
+alumnosArray.push(newAlumno("EstebanDido" ,"22888444",20)); 
+alumnosArray.push(newAlumno("MatiasQueroso","28946255",51)); 
+alumnosArray.push(newAlumno("ElbaCalao" ,"32623391",18));
 app.use(cors());
 app.use(express.json());
 
@@ -30,10 +34,48 @@ app.use(express.json());
 
 
     app.get('/matematica/sumar', function (req, res){ 
-    let num1=req.query.num1;
-    let num2=req.query.num2;
+    let num1=parseInt(req.query.num1);
+    let num2=parseInt(req.query.num2);
     let result= sumar(num1,num2);
-    res.send(result);
+    res.send(result.toString());
+    });
+
+    app.get('/matematica/restar', function (req, res){ 
+        let num1=parseInt(req.query.num1);
+        let num2=parseInt(req.query.num2);
+        let result= restar(num1,num2);
+        res.send(result.toString());
+    });
+
+    app.get('/matematica/multiplicar', function (req, res){ 
+        let num1=parseInt(req.query.num1);
+        let num2=parseInt(req.query.num2);
+        let result= multiplicar(num1,num2);
+        res.send(result.toString());
+    });
+
+    app.get('/matematica/dividir', function (req, res){ 
+        let num1=parseInt(req.query.num1);
+        let num2=parseInt(req.query.num2);
+        let result= dividir(num1,num2);
+        res.send(result.toString());
+    });
+
+    app.get('/omdb/searchbypage', async function (req, res){ 
+        let page = req.query.page;
+        let searchText= req.query.texto;
+        let result=await OMDBSearchByPage(searchText,page);
+        res.status(200).send(result);
+    });
+
+    app.get('/omdb/GetByImdbID', async function (req, res){ 
+        let imdbID = req.query.id;
+        let result=await OMDBSearchByPage(imdbID);
+        res.status(200).send(result);
+    });
+
+    app.get('/alumno', async function (req, res){ 
+        
     });
 
 

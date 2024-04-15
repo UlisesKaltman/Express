@@ -1,5 +1,6 @@
 export default class Alumno
 {
+    
     constructor(UserName, DNI, Edad)
     { 
         this.UserName = UserName; 
