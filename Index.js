@@ -7,9 +7,9 @@ import {OMDBSearchByPage, OMDBSearchComplete, OMDBGetByImdbID} from "./src/modul
 const app  = express();
 const port = 3000;
 const alumnosArray=[]; 
-alumnosArray.push(newAlumno("EstebanDido" ,"22888444",20)); 
-alumnosArray.push(newAlumno("MatiasQueroso","28946255",51)); 
-alumnosArray.push(newAlumno("ElbaCalao" ,"32623391",18));
+alumnosArray.push(new alumno("EstebanDido" ,"22888444",20)); 
+alumnosArray.push(new alumno("MatiasQueroso","28946255",51)); 
+alumnosArray.push(new alumno("ElbaCalao" ,"32623391",18));
 app.use(cors());
 app.use(express.json());
 
@@ -75,8 +75,35 @@ app.use(express.json());
     });
 
     app.get('/alumno', async function (req, res){ 
-        
+        res.status(200).send(alumnosArray);
     });
+
+    app.get('/alumno/:dni',  function (req, res){
+        const dniParam = req.params.dni;
+        let alumno =  alumnosArray.find(alumno => alumno.DNI === dniParam);
+        res.status(200).send(alumno);
+    });
+
+
+    app.post('/agregar-alumno',  function (req, res){
+        let nuevoAlumno = req.body;
+        alumnosArray.push(new alumno(nuevoAlumno));
+        res.json(201).send('creado');
+    });
+
+    app.delete('/eliminar-alumno',  function (req, res){
+        let nuevoAlumno = req.body;
+        const index = alumnosArray.findIndex(alumno => alumno.DNI === nuevoAlumno.DNI);
+
+        if (index !== -1) {
+            alumnosArray.splice(index, 1); 
+            res.status(201).send('Alumno eliminado');
+        } else { 
+            res.status(404).send('Alumno no encontrado');
+        }
+    });
+
+
 
 
 
